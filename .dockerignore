@@ -1,0 +1,3 @@
+# Ignore EVERYTHING except the 'docker/' directory
+*
+!docker/

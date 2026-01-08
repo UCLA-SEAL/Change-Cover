@@ -1,0 +1,128 @@
+FROM python:3.12-slim-bookworm
+
+ARG UID=1000
+ARG GID=1000
+ARG PR_NUMBER
+
+# Install build dependencies (pkg-config is added)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    curl \
+    lcov \
+    libopenblas-dev \
+    libatlas-base-dev \
+    liblapack-dev \
+    gfortran \
+    libgmp-dev \
+    libmpfr-dev \
+    libsuitesparse-dev \
+    ccache \
+    libmpc-dev \
+    pkg-config \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables to avoid buffering and locale issues
+ENV PYTHONUNBUFFERED=1
+ENV LANG=C.UTF-8
+
+# Pass along the PR_NUMBER as an environment variable, if needed
+ENV PR_NUMBER=${PR_NUMBER}
+
+# Clone the SciPy repository
+WORKDIR /opt
+RUN git clone https://github.com/scipy/scipy.git
+
+# Create non-root user and adjust ownership of the SciPy source
+RUN groupadd -g $GID regularuser && \
+    useradd -m -u $UID -g $GID -s /bin/bash regularuser && \
+    chown -R ${UID}:${GID} /opt/scipy
+
+# Setup working directory and adjust permissions
+WORKDIR /workspace
+RUN chown -R regularuser /workspace
+
+# Switch to non-root user for development/testing purposes.
+USER regularuser
+
+# Add the user-local bin directory to PATH so that pip-installed tools (e.g., meson) can be found
+ENV PATH="/home/regularuser/.local/bin:$PATH"
+
+# Checkout the specific pull request using a git alias
+WORKDIR /opt/scipy
+RUN git config --global alias.pr '!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f' \
+    && git pr $PR_NUMBER
+
+# SciPy requires its submodules to be initialized
+RUN git submodule update --init
+
+# Install the required Python dependencies for building SciPy
+RUN pip install --no-cache-dir \
+    numpy \
+    cython \
+    unidiff \
+    rich \
+    pytest \
+    pytest-cov \
+    pytest-xdist \
+    pytest-timeout \
+    pybind11 \
+    mpmath \
+    gmpy2 \
+    pythran \
+    ninja \
+    meson \
+    click \
+    rich-click \
+    doit \
+    pydevtool \
+    pooch \
+    hypothesis \
+    array-api-strict
+
+RUN python -m pip install -r requirements/all.txt
+
+# Install PyTorch CPU
+RUN python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install JAX
+RUN python -m pip install "jax[cpu]" --no-deps
+
+# Install Dask
+RUN python -m pip install dask[array]
+
+# Install marray: https://github.com/scipy/scipy/actions/runs/13666617958/job/38209969965
+RUN python -m pip install marray
+
+# PHASE 1: build SciPy using dev.py, and run the COMPLETE test suite
+
+# Enable support for Array API, see guide: https://docs.scipy.org/doc/scipy-1.15.1/dev/api-dev/array_api.html
+# For more backends, e.g. cupy, see https://github.com/scipy/scipy/blob/main/.github/workflows/array_api.yml
+ENV SCIPY_ARRAY_API=1
+
+# Using spin instead of dev.py
+# See: https://github.com/scipy/scipy/pull/21674`
+RUN spin build -j16
+
+RUN export OMP_NUM_THREADS=2
+# RUN python dev.py --no-build test -b all -m full -c -- --cov-report=xml:/opt/scipy/coverage_all.xml -v -rs --durations 3 --timeout=60 > pytest.log 2>&1 || true
+RUN spin test --no-build -j2 -b all -m full -c -- --cov-report=xml:/opt/scipy/coverage_all.xml -v -rs --durations 3 --timeout=60 2>&1 | tee /opt/scipy/pytest.log || true
+
+# Make file paths in the coverage report absolute, save coverage report and pytest log
+RUN sed -i 's/filename="\([^/][^"]*\)"/filename="\/opt\/scipy\/scipy\/\1"/g' coverage_all.xml
+RUN cp coverage_all.xml /workspace/coverage_all.xml && cp pytest.log /workspace/pytest.log
+
+# PHASE 2: remove scipy build using dev.py, and reinstall in editable mode
+# Note: jax needs to be reinstalled with dependencies
+RUN git clean -xdf
+RUN python -m pip install -r requirements/all.txt && \
+    python -m pip install -e . --no-build-isolation && \
+    python -m pip install jax[cpu]
+
+WORKDIR /workspace
+RUN cp coverage_all.xml /opt/scipy/coverage_all.xml
+
+# TODO: Enable support for GPU backends: see https://github.com/scipy/scipy/blob/main/.github/workflows/gpu-ci.yml
+
+# By default, print the SciPy version
+CMD ["python", "-c", "import scipy; print(scipy.__version__)"]

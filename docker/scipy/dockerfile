@@ -1,0 +1,92 @@
+FROM python:3.10-slim
+
+ARG UID=1000
+ARG GID=1000
+ARG PR_NUMBER
+
+# Install build dependencies (pkg-config is added)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    curl \
+    lcov \
+    libopenblas-dev \
+    libatlas-base-dev \
+    liblapack-dev \
+    gfortran \
+    libgmp-dev \
+    libmpfr-dev \
+    libsuitesparse-dev \
+    ccache \
+    libmpc-dev \
+    pkg-config \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables to avoid buffering and locale issues
+ENV PYTHONUNBUFFERED=1
+ENV LANG=C.UTF-8
+
+# Pass along the PR_NUMBER as an environment variable, if needed
+ENV PR_NUMBER=${PR_NUMBER}
+
+# Clone the SciPy repository
+WORKDIR /opt
+RUN git clone https://github.com/scipy/scipy.git
+
+# Create non-root user and adjust ownership of the SciPy source
+RUN groupadd -g $GID regularuser && \
+    useradd -m -u $UID -g $GID -s /bin/bash regularuser && \
+    chown -R ${UID}:${GID} /opt/scipy
+
+# Setup working directory and adjust permissions
+WORKDIR /workspace
+RUN chown -R regularuser /workspace
+
+# Switch to non-root user for development/testing purposes.
+USER regularuser
+
+# Add the user-local bin directory to PATH so that pip-installed tools (e.g., meson) can be found
+ENV PATH="/home/regularuser/.local/bin:$PATH"
+
+# Checkout the specific pull request using a git alias
+WORKDIR /opt/scipy
+RUN git config --global alias.pr '!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f' \
+    && git pr $PR_NUMBER
+
+# SciPy requires its submodules to be initialized
+RUN git submodule update --init
+
+# Install the required Python dependencies for building SciPy
+RUN pip install --no-cache-dir \
+    numpy \
+    cython \
+    unidiff \
+    rich \
+    pytest \
+    pytest-cov \
+    pytest-xdist \
+    pytest-timeout \
+    pybind11 \
+    mpmath \
+    gmpy2 \
+    pythran \
+    ninja \
+    meson \
+    click \
+    rich-click \
+    doit \
+    pydevtool \
+    pooch \
+    hypothesis
+
+# Install additional build dependencies from SciPy's requirements file
+RUN python -m pip install -r requirements/all.txt
+
+# Build and install SciPy in editable mode (with --no-build-isolation)
+# This allows auto-rebuilds on import via meson-python.
+RUN pip install -e . --no-build-isolation
+
+WORKDIR /workspace
+
+# By default, print the SciPy version
+CMD ["python", "-c", "import scipy; print(scipy.__version__)"]

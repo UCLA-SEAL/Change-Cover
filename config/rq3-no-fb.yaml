@@ -1,0 +1,37 @@
+# RQ3: run ChaCo (No Feedback) on selected PRs
+
+benchmark_name: config/benchmark/rq_ablation.json
+
+benchmark_projects:
+  - "Qiskit/qiskit"
+  - "pandas-dev/pandas"
+  - "scipy/scipy"
+
+base_dir: "data/test_augmentation/rq3"
+
+test_folder_name: "no_fb"
+
+api_keys:
+  OPENAI_API_KEY: secrets/openai_token.txt
+
+# configuration for test generation
+test_generator:
+  class_name: "target_gen_base_dynamic_test_context"
+  model_name: openai/gpt-4o-mini
+  min_time_between_tests_sec: 0
+  kwargs:
+    integration: true
+    temperature: 0.7
+    dynamic_test_context: true  # if true, will use viztracer to find the test context
+    runtime_feedback: false  # if true, will use runtime feedback to improve the test generation
+    helper_dir: "approach/utils"
+    linter_classes:
+        - F821  # undefined name
+        - F841  # local variable is assigned to but never used
+        - F401  # module imported but unused
+    max_feedback: 0
+  num_tests_per_pr: 20 # number of tests to generate per PR
+
+# parallelism
+num_workers: 20
+

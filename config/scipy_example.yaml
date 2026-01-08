@@ -1,0 +1,38 @@
+# V002: Configuration to Run Test Genertion
+
+benchmark_name: config/benchmark/scipy_example.json
+
+# uncomment projects if you want to evaluate all
+benchmark_projects:
+  # - "Qiskit/qiskit"
+  # - "pandas-dev/pandas"
+  - "scipy/scipy"
+
+base_dir: "data/test_augmentation/001"
+
+test_folder_name: "chaco_full"
+
+api_keys:
+  OPENAI_API_KEY: secrets/openai_token.txt
+
+# configuration for test generation
+test_generator:
+  class_name: "target_gen_base_dynamic_test_context"
+  model_name: openai/gpt-4o-mini
+  min_time_between_tests_sec: 0
+  kwargs:
+    integration: true
+    temperature: 0.7
+    dynamic_test_context: true  # if true, will use viztracer to find the test context
+    runtime_feedback: true  # if true, will use runtime feedback to improve the test generation
+    helper_dir: "approach/utils"
+    linter_classes:
+        - F821  # undefined name
+        - F841  # local variable is assigned to but never used
+        - F401  # module imported but unused
+    max_feedback: 4
+  num_tests_per_pr: 5 # number of tests to generate per PR
+
+# parallelism
+num_workers: 1
+
