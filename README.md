@@ -1,7 +1,12 @@
 # Change and Cover
 
+[![ICSE 2026](https://img.shields.io/badge/ICSE-2026-blue)](https://conf.researchr.org/home/icse-2026)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 ## Overview
-Change and Cover (ChaCo) is an approach to automatically generate high-quality regression tests to cover the uncovered lines in pull requests (PRs). It leverages large language models (LLMs) to generate test cases based on the code changes in the PRs and the existing test suite. Unlike traditional test generation techniques, ChaCo aims to generate ready-to-merge regression tests that minimize the developer effort required to integrate them into the codebase. 
+**Change and Cover (ChaCo)** is an approach to automatically generate high-quality regression tests to cover the uncovered lines in pull requests (PRs). It leverages large language models (LLMs) to generate test cases based on the code changes in the PRs and the existing test suite. Unlike traditional test generation techniques, ChaCo aims to generate ready-to-merge regression tests that minimize the developer effort required to integrate them into the codebase.
+
+<img src= "assets/workflow_w_codebase_rev.png" alt="ChaCo Workflow" style="border: 10px solid white;">
 
 ## Install ChaCo
 
@@ -85,7 +90,7 @@ First, ChaCo needs to collect the target PRs that do not have 100% of patch cove
 We provide evaluation notebooks to analyze the effectiveness of the tests. 
 ```bash
 cd eval
-papermill example_results.ipynb scipy_results.ipynb \
+papermill example.ipynb scipy_results.ipynb \
   -p CONFIG_FILE "config/benchmark/{your PRs}.json" \
   -p REPO_NAME "scipy/scipy" \
   -p ARTIFACT_FOLDER "../data/test_augmentation/001/scipy" \
@@ -94,18 +99,19 @@ papermill example_results.ipynb scipy_results.ipynb \
 ```
 Open `scipy_results.ipynb` and check metrics: Pass Rate, PRs fully covered, ...
 
-## Replicate
+## Data Availability
 To replicate the results of the controlled experiments in our paper, please refer to [REPLICATE.md](REPLICATE.md)  for detailed instructions.
 
 ## Citation
+Please cite our paper if you use this code:
 ```bibtex
 @inproceedings{zhou2024change,
    title={Change And Cover: Last-Mile, Pull Request-Based Regression Test Augmentation},
    author={Zhou, Zitong and Paltenghi, Matteo and Kim, Miryung and Pradel, Michael},
-   booktitle={Proceedings of the ...},
+   booktitle={Proceedings of the 48th International Conference on Software Engineering},
    year={2026},
    organization={ACM}
-   }
+}
 ```
 ## Repository Structure
 ```bash
@@ -122,3 +128,10 @@ Change-Cover/
 ├── environment.yml
 └── tests
 ```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknolowledgements
+This work is supported by the National Science Foundation under grant numbers 2426162, 2106838, and 2106404, by the European Research Council (ERC; grant agreements 851895 and 101155832), and by the German Research Foundation (DFG; projects 492507603, 516334526, and 526259073). It is also supported in part by funding from Amazon and Samsung.
+
