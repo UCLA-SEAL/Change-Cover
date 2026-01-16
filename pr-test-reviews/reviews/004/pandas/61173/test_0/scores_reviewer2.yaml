@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "reasonable conversion test"
+  - criterion: "well integrated"
+    score: 2
+    comment: "the test file is at a plotting path.. pandas/tests/plotting/test_series.py this would be better: pandas/pandas/tests/plotting/test_converter.py"
+  - criterion: "related to PR"
+    score: 3
+    comment: "marginally connected to the PR, this fixes a conversion bug in a PR that is moslty about plotting, the bug is the root cause."

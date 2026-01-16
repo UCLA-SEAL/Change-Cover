@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 5
+    comment: "if there was a specific test for this file in test/python/synthesis it would be better, but there is not such test and the function is connected to SolvayKitaev so it should be also fine here."
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

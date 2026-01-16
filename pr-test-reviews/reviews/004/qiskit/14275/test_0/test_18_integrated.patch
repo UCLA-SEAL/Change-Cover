@@ -1,0 +1,22 @@
+diff --git a/test/python/transpiler/test_instruction_durations.py b/test/python/transpiler/test_instruction_durations.py
+index 0dfe20e3d..56738530a 100644
+--- a/test/python/transpiler/test_instruction_durations.py
++++ b/test/python/transpiler/test_instruction_durations.py
+@@ -19,6 +19,7 @@ from qiskit.providers.fake_provider import GenericBackendV2
+ from qiskit.transpiler.exceptions import TranspilerError
+ from qiskit.transpiler.instruction_durations import InstructionDurations
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
++import unittest
+ 
+ 
+ class TestInstructionDurationsClass(QiskitTestCase):
+@@ -78,3 +79,9 @@ class TestInstructionDurationsClass(QiskitTestCase):
+         inst_durations = InstructionDurations.from_backend(backend)
+         self.assertEqual(inst_durations, backend.target.durations())
+         self.assertIsInstance(inst_durations, InstructionDurations)
++
++    def test_from_duration_with_unsupported_backend(self):
++        unsupported_backends = [None, 'InvalidBackend', 123]
++        for unsupported_backend in unsupported_backends:
++            with self.assertRaises(TypeError):
++                InstructionDurations.from_backend(unsupported_backend)

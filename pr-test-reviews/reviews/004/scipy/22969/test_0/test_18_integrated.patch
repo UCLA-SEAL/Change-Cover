@@ -1,0 +1,23 @@
+diff --git a/scipy/stats/tests/test_continuous.py b/scipy/stats/tests/test_continuous.py
+index 2be327145..eeaa96d2d 100644
+--- a/scipy/stats/tests/test_continuous.py
++++ b/scipy/stats/tests/test_continuous.py
+@@ -1441,6 +1441,18 @@ class TestMakeDistribution:
+             assert repr(dist(beta=2)) == "HalfGeneralizedNormal(beta=np.float64(2.0))"
+         assert 'HalfGeneralizedNormal' in dist.__doc__
+ 
++    def test_nchypergeom_fisher_with_nan(self):
++        # Create an instance of the distribution
++        dist = stats.nchypergeom_fisher
++        # Set parameters M, n, N to NaN and odds to a valid number
++        M = np.nan
++        n = np.nan
++        N = np.nan
++        odds = 1.0  # Use a valid odds value
++        # Check if the stats method handles NaN as expected
++        result = dist._stats(M, n, N, odds)
++        assert np.isnan(result[0]) and np.isnan(result[1]), 'Expected NaN values for moments'
++
+ 
+ class TestTransforms:
+ 

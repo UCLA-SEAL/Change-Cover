@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "there are 4 subclasses of the exact same type of missed coverage. Should parameterize and cover them all"
+  - criterion: "well integrated"
+    score: 3
+    comment: "Should be in test class TestMCXSynthesisPlugins"
+  - criterion: "related to PR"
+    score: 4
+    comment: ""

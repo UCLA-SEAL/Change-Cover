@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: ""
+  - criterion: "well integrated"
+    score: 4
+    comment: "Right test file, but unclear if a new test class is needed"
+  - criterion: "related to PR"
+    score: 4
+    comment: ""

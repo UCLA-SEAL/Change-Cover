@@ -1,0 +1,29 @@
+diff --git a/pandas/tests/frame/methods/test_interpolate.py b/pandas/tests/frame/methods/test_interpolate.py
+index 09d1cc9a47..33a2bb1174 100644
+--- a/pandas/tests/frame/methods/test_interpolate.py
++++ b/pandas/tests/frame/methods/test_interpolate.py
+@@ -12,6 +12,7 @@ from pandas import (
+     date_range,
+ )
+ import pandas._testing as tm
++import pandas as pd
+ 
+ 
+ class TestDataFrameInterpolate:
+@@ -440,3 +441,16 @@ class TestDataFrameInterpolate:
+         result = df.interpolate(limit=2)
+         expected = DataFrame({"a": [1, 1.5, 2.0, None, 3]}, dtype="float64[pyarrow]")
+         tm.assert_frame_equal(result, expected)
++
++    def test_interpolate_type_error_on_string(self):
++        df = pd.DataFrame({'A': ['a', 'b', 'c'], 'B': [1, 2, 3]})
++        with pytest.raises(TypeError):
++            df['A'].interpolate()
++    def test_interpolate_type_error_on_non_numeric(self):
++        df = pd.DataFrame({'C': [1, 2, 3], 'D': ['x', 'y', 'z']})
++        with pytest.raises(TypeError):
++            df['D'].interpolate()
++    def test_interpolate_type_error_on_arrow(self):
++        arrow_data = pd.Series(['string1', 'string2', 'string3'], dtype='string')
++        with pytest.raises(TypeError, match='Cannot interpolate with string dtype'):
++            arrow_data.interpolate()

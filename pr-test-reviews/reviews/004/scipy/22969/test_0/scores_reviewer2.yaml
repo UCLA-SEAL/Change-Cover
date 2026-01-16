@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "could have been better even testing the or by just setting one of the three parameters to nan, and the other two to something else"
+  - criterion: "well integrated"
+    score: 2
+    comment: "the distribution is a discrete one, and should be placed in scipy/scipy/stats/tests/test_discrete_distns.py"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

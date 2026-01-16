@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "some odd choice of inputs but overall good to test exception"
+  - criterion: "well integrated"
+    score: 3
+    comment: "could have used existing class instead of creating a new one very similar"
+  - criterion: "related to PR"
+    score: 4
+    comment: "the pr was touching lots of lines, for a sort of refactoring, thus the test is fine but only tangentially related"

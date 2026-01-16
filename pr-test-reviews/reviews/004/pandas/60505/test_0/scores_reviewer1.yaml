@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "The PR adds a new test for this line: test_groupby_apply_empty_with_group_keys_false. Not sure why coverage is missing. Needs double check."
+  - criterion: "well integrated"
+    score: 4
+    comment: "bad file, should have been in pandas/tests/groupby/test_grouping.py"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

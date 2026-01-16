@@ -1,0 +1,30 @@
+diff --git a/pandas/tests/plotting/test_series.py b/pandas/tests/plotting/test_series.py
+index 98e70f7708..8bba18f557 100644
+--- a/pandas/tests/plotting/test_series.py
++++ b/pandas/tests/plotting/test_series.py
+@@ -40,6 +40,8 @@ plt = pytest.importorskip("matplotlib.pyplot")
+ 
+ from pandas.plotting._matplotlib.converter import DatetimeConverter
+ from pandas.plotting._matplotlib.style import get_standard_colors
++from pandas import Series, period_range
++from pandas.plotting._matplotlib.converter import PeriodConverter
+ 
+ 
+ @pytest.fixture
+@@ -995,3 +997,16 @@ class TestSeriesPlots:
+         x_limits = ax.get_xlim()
+         assert x_limits[0] <= bar_xticks[0].get_position()[0]
+         assert x_limits[1] >= bar_xticks[-1].get_position()[0]
++
++def test_period_index_conversion_with_freq():
++    # Create a PeriodIndex with monthly frequency
++    period_index = period_range('2023', periods=5, freq='M')
++    series = Series([1, 2, 3, 4, 5], index=period_index)
++    # Convert the PeriodIndex to its corresponding values using a frequency
++    converted_values = PeriodConverter.convert_from_freq(series.index, series.index.freq)
++    expected_values = np.array([p.ordinal for p in period_index])  # Expected conversion to ordinal values
++    assert np.array_equal(converted_values, expected_values)
++    # Test conversion of a normal Index
++    index = pd.Index([p for p in period_index])
++    converted_index_values = PeriodConverter.convert_from_freq(index, series.index.freq)
++    assert np.array_equal(converted_index_values, expected_values)

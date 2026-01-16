@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "weak assertions, not empty output but okaish"
+  - criterion: "well integrated"
+    score: 3
+    comment: "this class would have been better scipy/signal/tests/test_filter_design.py, because there is already a test, but this is also conceptually related to the same software component"
+  - criterion: "related to PR"
+    score: 4
+    comment: "the PR focuses on backend change, but the function is indeed touched."

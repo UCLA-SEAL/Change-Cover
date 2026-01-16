@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: ""
+  - criterion: "well integrated"
+    score: 4
+    comment: "It a bit unclear if the test is correctly placed"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

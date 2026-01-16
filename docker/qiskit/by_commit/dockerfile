@@ -1,0 +1,127 @@
+FROM python:3.11-slim AS builder
+
+ARG UID=1000
+ARG GID=1000
+ARG COMMIT_HASH
+
+# Install essential build tools and libraries
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    curl \
+    lcov \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Create a non-root user and prepare directories
+RUN groupadd -g $GID regularuser && \
+    useradd -m -u $UID -g $GID -s /bin/bash regularuser && \
+    mkdir -p /opt && chown -R regularuser /opt
+
+# Switch to non-root user for subsequent steps
+USER regularuser
+
+# Install Rust (required for parts of Qiskit)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+      | sh -s -- --default-toolchain stable -y && \
+    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc && \
+    echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.profile && \
+    /bin/bash -c "source ~/.cargo/env && rustup update stable"
+
+# Ensure Cargo's bin directory is in PATH
+ENV PATH="/home/regularuser/.cargo/bin:${PATH}"
+
+# Create Python virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Python packages into virtual environment
+RUN pip install --no-cache-dir \
+    coverage==7.6.2 \
+    cython \
+    unidiff \
+    click \
+    rich \
+    pytest \
+    pytest-cov \
+    stestr \
+    ddt
+
+# Clone the Qiskit repository
+WORKDIR /opt
+RUN git clone https://github.com/Qiskit/qiskit.git
+
+# Checkout the desired commit hash
+WORKDIR /opt/qiskit
+RUN git checkout main && git fetch origin && git checkout $COMMIT_HASH
+
+# Install Qiskit in editable mode into virtual environment
+RUN python -m pip install --no-cache-dir -U \
+    -c constraints.txt \
+    -r requirements.txt \
+    -r requirements-dev.txt \
+    -r requirements-optional.txt \
+    -e .
+
+RUN rm -r /opt/qiskit/target/debug
+
+# --- copy to a new image without rust and build tools ---
+FROM python:3.11-slim AS final
+
+ARG UID=1000
+ARG GID=1000
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git
+
+# Create a non-root user and prepare directories
+RUN groupadd -g $GID regularuser && \
+    useradd -m -u $UID -g $GID -s /bin/bash regularuser && \
+    mkdir -p /opt && chown -R regularuser /opt
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /opt/qiskit /opt/qiskit
+
+# Set virtual environment path
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Build and install qiskit-terra with coverage instrumentation
+ENV PYTHON="coverage run --source qiskit --parallel-mode" \
+    QISKIT_TEST_CAPTURE_STREAMS=1 \
+    QISKIT_PARALLEL=FALSE
+
+WORKDIR /opt/qiskit
+
+# Make regularuser the owner of directories
+RUN chown -R regularuser:regularuser /opt && \
+    chown -R regularuser:regularuser /home/regularuser
+
+# Default values for test paths - default to all tests
+ARG PYTHON_TEST_PATH="."
+
+# Run the tests
+RUN python tools/report_numpy_state.py && \
+    python -m stestr run ${PYTHON_TEST_PATH} --slowest > test_output.log 2>&1 || true
+
+# Combine the Python coverage reports and store them in XML and HTML formats
+RUN coverage combine && \
+    coverage xml -o coverage_all.xml && \
+    coverage html -d coverage_html
+
+RUN mkdir -p /workspace/coverage
+
+# Copy coverage files to the output folder
+RUN mkdir -p /workspace/coverage && \
+    cp coverage_all.xml /workspace/coverage/ && \
+    cp -r coverage_html /workspace/coverage/
+
+# Setup working directory and adjust permissions
+USER root
+RUN mkdir -p /workspace && chown -R regularuser /workspace
+RUN chown -R regularuser:regularuser /opt
+
+USER regularuser
+WORKDIR /workspace
+
+# Verify installation by printing the Qiskit version
+CMD ["/bin/bash", "-c", "du -ah / | sort -rh | head -n 20"]

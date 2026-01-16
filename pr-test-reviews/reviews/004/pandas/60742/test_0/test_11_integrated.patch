@@ -1,0 +1,24 @@
+diff --git a/pandas/tests/indexes/test_base.py b/pandas/tests/indexes/test_base.py
+index a94e4728a9..8269c257ce 100644
+--- a/pandas/tests/indexes/test_base.py
++++ b/pandas/tests/indexes/test_base.py
+@@ -1367,6 +1367,19 @@ class TestIndex:
+ 
+         tm.assert_index_equal(result, expected)
+ 
++    def test_view_with_dtype_string_array(self):
++        # Create a string array using pandas
++        string_array = pd.array(['a', 'b', 'c'], dtype='string')
++        # Call the view method with a dtype set to None to test the original functionality
++        viewed_array = string_array.view(dtype=None)
++        # Assert that the viewed array is still a pandas string array
++        assert isinstance(viewed_array, pd.core.arrays.string_.StringArray)  # Corrected the type check
++        assert viewed_array.tolist() == ['a', 'b', 'c']  # Changed to 'tolist()'
++
++        # Call the view method with a non-None dtype and check for TypeError
++        with pytest.raises(TypeError, match="Cannot change data-type for string array."):  
++            string_array.view(dtype='i8')
++
+ 
+ class TestMixedIntIndex:
+     # Mostly the tests from common.py for which the results differ

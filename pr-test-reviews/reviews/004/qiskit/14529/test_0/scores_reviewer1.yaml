@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "no oracle"
+  - criterion: "well integrated"
+    score: 3
+    comment: "Should be placed in the test class TestCircuitMatplotlibDrawer"
+  - criterion: "related to PR"
+    score: 3
+    comment: ""

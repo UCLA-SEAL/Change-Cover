@@ -1,0 +1,30 @@
+diff --git a/test/visual/mpl/circuit/test_circuit_matplotlib_drawer.py b/test/visual/mpl/circuit/test_circuit_matplotlib_drawer.py
+index e62489fc1..edb822281 100644
+--- a/test/visual/mpl/circuit/test_circuit_matplotlib_drawer.py
++++ b/test/visual/mpl/circuit/test_circuit_matplotlib_drawer.py
+@@ -55,6 +55,9 @@ from test.python.legacy_cmaps import (  # pylint: disable=wrong-import-order
+     TENERIFE_CMAP,
+     YORKTOWN_CMAP,
+ )
++from qiskit import QuantumCircuit
++import matplotlib.pyplot as plt
++from qiskit.circuit import BoxOp
+ 
+ if optionals.HAS_MATPLOTLIB:
+     from matplotlib.pyplot import close as mpl_close
+@@ -1941,3 +1944,15 @@ class TestCircuitMatplotlibDrawer(QiskitTestCase):
+ 
+ if __name__ == "__main__":
+     unittest.main(verbosity=1)
++
++def test_box_op_positioning():
++    """Test the positioning of BoxOps in a quantum circuit visualization."""
++    circuit = QuantumCircuit(3)
++    with circuit.box():  # Use box() to create a BoxOp context
++        circuit.x(0)
++        circuit.x(1)  # Ensure another operation is included
++        circuit.cx(0, 1)  # Include a controlled-X operation within the box
++    circuit.measure_all()
++    fname = 'box_op_positioning.png'
++    circuit_drawer(circuit, output='mpl', filename=fname)
++    plt.close()  # Close the plot to avoid display issues

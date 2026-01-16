@@ -1,0 +1,16 @@
+diff --git a/pandas/tests/indexes/test_base.py b/pandas/tests/indexes/test_base.py
+index 608158d40c..46d3cdef68 100644
+--- a/pandas/tests/indexes/test_base.py
++++ b/pandas/tests/indexes/test_base.py
+@@ -1351,6 +1351,11 @@ class TestIndex:
+ 
+         tm.assert_index_equal(result, expected)
+ 
++    def test_view_with_non_none_dtype_raises_type_error(self):
++        string_array = pd.Index(['a', 'b', 'c'], dtype='string')
++        with pytest.raises(TypeError, match='Cannot change data-type for string array.'):
++            string_array.view('i8')
++
+ 
+ class TestMixedIntIndex:
+     # Mostly the tests from common.py for which the results differ

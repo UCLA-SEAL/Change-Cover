@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: ""
+  - criterion: "well integrated"
+    score: 3
+    comment: "Should use the only existing test class"
+  - criterion: "related to PR"
+    score: 4
+    comment: ""

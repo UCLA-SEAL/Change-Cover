@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 3
+    comment: "style is incorrect with unittest when the project relies on pytest"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

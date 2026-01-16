@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 4
+    comment: "Okay file, but this could have been better: pandas/tests/groupby/test_grouping.py https://github.com/snitish/pandas/blob/5736b9647068d31fdf8673d3528cb64e35060bac/pandas/tests/groupby/test_grouping.py#L177"
+  - criterion: "related to PR"
+    score: 4
+    comment: "this seems to be a corner case, adjacent to the original purpose, but still relevant"

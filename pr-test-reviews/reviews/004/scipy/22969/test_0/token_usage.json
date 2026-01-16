@@ -1,0 +1,14 @@
+{
+    "token_usage": [
+        {
+            "completion_tokens": 125,
+            "prompt_tokens": 4489,
+            "total_tokens": 4614,
+            "model_name": "openai/gpt-4o-mini",
+            "stage_name": "TestAdditionPullRequest",
+            "timestamp": 1752140369.018472,
+            "readable_date": "2025-07-10T09:39:29.018472+00:00"
+        }
+    ],
+    "pr_number": 22969
+}

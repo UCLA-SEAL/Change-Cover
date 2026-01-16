@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "not really testing it end to end because the flag pa_version_under10p1 is mocked but I think it is still fine to test the exception handling"
+  - criterion: "well integrated"
+    score: 5
+    comment: "reasonable generic class for this high-level behavior"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

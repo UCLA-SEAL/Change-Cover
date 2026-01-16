@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "reasoning on more complex assertions is good"
+  - criterion: "well integrated"
+    score: 5
+    comment: "correct class"
+  - criterion: "related to PR"
+    score: 5
+    comment: "kept the focus on the same insert method key in the PR"

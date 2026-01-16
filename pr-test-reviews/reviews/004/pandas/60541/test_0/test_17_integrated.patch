@@ -1,0 +1,36 @@
+diff --git a/pandas/tests/test_expressions.py b/pandas/tests/test_expressions.py
+index 8f275345a7..76740cb782 100644
+--- a/pandas/tests/test_expressions.py
++++ b/pandas/tests/test_expressions.py
+@@ -462,3 +462,31 @@ class TestExpressions:
+                     pass
+                 else:
+                     assert scalar_result == expected
++
++    @pytest.mark.parametrize('cond', [True, False])
++    def test_where_use_numexpr_false(self, cond):
++        df = DataFrame(np.random.default_rng(2).standard_normal((100, 4)), columns=list('ABCD'), dtype='float64')
++        c = np.empty(df.shape, dtype=np.bool_)
++        c.fill(cond)
++        with option_context('compute.use_numexpr', False):
++            result = expr.where(c, df.values, df.values + 1, use_numexpr=False)
++            expected = np.where(c, df.values, df.values + 1)
++            tm.assert_numpy_array_equal(result, expected)
++    @pytest.mark.parametrize('cond', [True, False])
++    def test_where_use_numexpr_true(self, cond):
++        df = DataFrame(np.random.default_rng(2).standard_normal((100, 4)), columns=list('ABCD'), dtype='float64')
++        c = np.empty(df.shape, dtype=np.bool_)
++        c.fill(cond)
++        with option_context('compute.use_numexpr', True):
++            result = expr.where(c, df.values, df.values + 1)
++            expected = np.where(c, df.values, df.values + 1)
++            tm.assert_numpy_array_equal(result, expected)
++    @pytest.mark.parametrize('cond', [True, False])
++    def test_where_use_numexpr_standard(self, cond):
++        df = DataFrame(np.random.default_rng(3).standard_normal((100, 4)), columns=list('ABCD'), dtype='float64')
++        c = np.empty(df.shape, dtype=np.bool_)
++        c.fill(cond)
++        with option_context('compute.use_numexpr', False):
++            result = expr.where(c, df.values, df.values + 1)
++            expected = np.where(c, df.values, df.values + 1)
++            tm.assert_numpy_array_equal(result, expected)

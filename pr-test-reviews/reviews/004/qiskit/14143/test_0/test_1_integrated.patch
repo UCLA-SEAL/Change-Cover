@@ -1,0 +1,31 @@
+diff --git a/test/python/transpiler/test_high_level_synthesis.py b/test/python/transpiler/test_high_level_synthesis.py
+index 2c07c3ce0..95382a368 100644
+--- a/test/python/transpiler/test_high_level_synthesis.py
++++ b/test/python/transpiler/test_high_level_synthesis.py
+@@ -87,6 +87,9 @@ from qiskit.circuit.library.standard_gates.equivalence_library import (
+     StandardEquivalenceLibrary as std_eqlib,
+ )
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
++from qiskit.circuit import QuantumCircuit
++from qiskit.transpiler.passes.synthesis.hls_plugins import MCXSynthesis2CleanKG24
++import unittest
+ 
+ 
+ # In what follows, we create two simple operations OpA and OpB, that potentially mimic
+@@ -1744,6 +1747,16 @@ class TestHighLevelSynthesisModifiers(QiskitTestCase):
+         qct = pass_(qc)
+         self.assertEqual(Statevector(qc), Statevector(qct))
+ 
++    def test_invalid_high_level_object(self):
++        """Test MCXSynthesis2CleanKG24 with an invalid high_level_object type."""
++        invalid_objects = ["not_a_gate", 123, None, QuantumCircuit(1)]  # List of invalid types
++        synthesis_pass = MCXSynthesis2CleanKG24()
++
++        for invalid_object in invalid_objects:
++            with self.subTest(invalid_object=invalid_object):
++                result = synthesis_pass.run(invalid_object)
++                self.assertIsNone(result, f"Expected None for invalid high_level_object type: {invalid_object}")
++
+ 
+ class TestUnrollerCompatability(QiskitTestCase):
+     """Tests backward compatibility with the UnrollCustomDefinitions pass.

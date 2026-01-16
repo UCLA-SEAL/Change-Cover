@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "reasonable to check the exceptional behavior, only that some inputs seems not very realistic (e.g. passing a string to a function that expects gates)"
+  - criterion: "well integrated"
+    score: 5
+    comment: "right class"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

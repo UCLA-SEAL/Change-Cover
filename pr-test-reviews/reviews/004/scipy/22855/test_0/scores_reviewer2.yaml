@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "check invalid dimension for distance"
+  - criterion: "well integrated"
+    score: 5
+    comment: ""
+  - criterion: "related to PR"
+    score: 4
+    comment: "the change was not about the distance or exception was mostly about the message, so it is only partially related"

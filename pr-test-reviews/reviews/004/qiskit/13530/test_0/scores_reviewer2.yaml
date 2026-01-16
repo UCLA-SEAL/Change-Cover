@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "one test seems the same as the first, 2 good one repetition where the invalid input is a int instead of a string"
+  - criterion: "well integrated"
+    score: 3
+    comment: "okaish but this test/python/transpiler/test_high_level_synthesis.py could have been better since we are not testing the adder actually (current is indeed test/python/circuit/library/test_adders.py ). This generation was likely biased by the tests already in the PRs."
+  - criterion: "related to PR"
+    score: 5
+    comment: "yes, the PR changes the adder implementation and this test is testing the use of adder in synthesis plugin, this generation was biased by the tests already in the PRs."

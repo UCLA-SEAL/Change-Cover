@@ -1,0 +1,34 @@
+diff --git a/scipy/_lib/tests/test_array_api.py b/scipy/_lib/tests/test_array_api.py
+index 1a633a968..f9f3c122e 100644
+--- a/scipy/_lib/tests/test_array_api.py
++++ b/scipy/_lib/tests/test_array_api.py
+@@ -10,6 +10,8 @@ from scipy._lib._array_api import (
+ from scipy._lib import array_api_extra as xpx
+ from scipy._lib._array_api_no_0d import xp_assert_equal as xp_assert_equal_no_0d
+ from scipy._lib.array_api_extra.testing import lazy_xp_function
++from scipy._lib._array_api import array_namespace, SCIPY_ARRAY_API
++from scipy.sparse import csr_matrix
+ 
+ 
+ lazy_xp_function(_asarray)
+@@ -223,6 +225,20 @@ class TestArrayAPI:
+     def test_default_dtype(self, xp):
+         assert xp_default_dtype(xp) == xp.asarray(1.).dtype
+ 
++    @pytest.mark.skipif(not SCIPY_ARRAY_API, reason='Array API test; set environment variable SCIPY_ARRAY_API=1 to run it')
++    def test_sparse_and_unsupported_types(self):
++        # Testing with a sparse array
++        sparse_array = csr_matrix([1, 2, 3])
++        with pytest.raises(ValueError, match='Sparse arrays/matrices are not supported by this function'):
++            array_namespace(sparse_array, np.array(1))
++        # Testing with a masked array
++        masked_array = np.ma.array([1, 2, 3])
++        with pytest.raises(TypeError, match='of type `numpy.ma.MaskedArray` are not supported'):
++            array_namespace(masked_array, np.array(1))
++        # Testing with unsupported types
++        with pytest.raises(TypeError, match='only boolean and numerical dtypes are supported'):
++            array_namespace({'key': 'value'}, np.array(1))
++
+ 
+ scalars = [1, 1., 1. + 1j]
+ lists = [[1], [1.], [1. + 1j]]

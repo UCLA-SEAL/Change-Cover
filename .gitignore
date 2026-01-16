@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Configs
+.idea/
+.vscode/settings.json
+pyrightconfig.json
+
+# Data to exclude
+data/github_artifacts/*
+data/fuzzing_runs/*
+data/fake_tmp_folder/*
+data/diff_length/*
+data/custom_tests/llvm/**
+data/test_augmentation/**
+data/ci_testing/**
+data/contributions/**
+data/project_selection/**
+data/commit_coverage/**
+data/custom_tests/*
+data/coverup/*
+
+docker/astroquery
+docker/ax
+docker/Ax
+docker/haystack
+docker/requests
+docker/sklearn
+docker/sktime
+
+# Logs
+*.log
+
+# Compiled python and cache
+*.pyc
+*.pyo
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Hide old version
+empirical_study/old_versions/*
+
+data/test_augmentation/*
+
+data/custom_tests/qiskit/v005/*
+data/custom_tests/qiskit/v005_llama70/*
+
+reviews/*

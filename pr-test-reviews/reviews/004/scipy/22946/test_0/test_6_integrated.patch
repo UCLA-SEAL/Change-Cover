@@ -1,0 +1,28 @@
+diff --git a/scipy/special/tests/test_support_alternative_backends.py b/scipy/special/tests/test_support_alternative_backends.py
+index e98939fef..4bee2d8b6 100644
+--- a/scipy/special/tests/test_support_alternative_backends.py
++++ b/scipy/special/tests/test_support_alternative_backends.py
+@@ -13,6 +13,8 @@ from scipy._lib._array_api import (is_cupy, is_dask, is_jax, is_torch,
+                                    make_xp_pytest_param, make_xp_test_case,
+                                    xp_default_dtype)
+ from scipy._lib.array_api_compat import numpy as np
++import unittest
++from scipy.special._support_alternative_backends import _FuncInfo
+ 
+ # Run all tests in this module in the Array API CI, including those without
+ # the xp fixture
+@@ -246,3 +248,14 @@ def test_chdtr_gh21311(xp):
+     ref = special.chdtr(v, x)
+     res = special.chdtr(xp.asarray(v), xp.asarray(x))
+     xp_assert_close(res, xp.asarray(ref))
++
++class TestFuncInfo(unittest.TestCase):
++    def test_funcinfo_equality(self):
++        func_info1 = _FuncInfo('func1', 1, None)
++        func_info2 = _FuncInfo('func1', 1, None)
++        func_info3 = _FuncInfo('func2', 2, None)
++        
++        # Check equality of two identical FuncInfo instances
++        self.assertEqual(func_info1, func_info2)
++        # Check inequality of two different FuncInfo instances
++        self.assertNotEqual(func_info1, func_info3)

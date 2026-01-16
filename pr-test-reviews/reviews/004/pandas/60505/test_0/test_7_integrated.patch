@@ -1,0 +1,15 @@
+diff --git a/pandas/tests/groupby/aggregate/test_aggregate.py b/pandas/tests/groupby/aggregate/test_aggregate.py
+index b7e6e55739..d800992a17 100644
+--- a/pandas/tests/groupby/aggregate/test_aggregate.py
++++ b/pandas/tests/groupby/aggregate/test_aggregate.py
+@@ -1807,3 +1807,10 @@ def test_groupby_aggregation_func_list_multi_index_duplicate_columns():
+         index=Index(["level1.1", "level1.2"]),
+     )
+     tm.assert_frame_equal(result, expected)
++
++class TestGrouping:
++    def test_groupby_empty_dataframe_no_group_keys(self):
++        df = pd.DataFrame({1: [], 2: []})
++        g = df.groupby(1, group_keys=False)
++        result = g[2].apply(lambda x: x)
++        assert result.index.name is None  # Verifying that the index is not set to the grouping keys

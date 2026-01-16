@@ -1,0 +1,50 @@
+# Configuration for PR Selection Benchmark Creation
+# This YAML file specifies which projects to scrape, how many PRs to consider,
+# PR filtering criteria (state, title keywords, file path exclusions), and
+# high-level parameters for running the pr_selection CLI.
+
+# High-level parameters for CLI
+output_folder: "data/test_augmentation/001"
+github_token_path: "secrets/github_token.txt"
+
+# If not specified, will use all listed projects
+benchmark_projects:
+  - "Qiskit/qiskit"
+  - "pandas-dev/pandas"
+  - "scipy/scipy"
+
+# Per-project PR selection configuration
+projects_config:
+  Qiskit/qiskit:
+    project_name: "qiskit"
+    num_prs: 200
+    pr_state: "merged"  # options: merged, open, all
+    exclude_title_keywords:
+      - "backport"
+    exclude_paths: []
+    exclude_labels:
+      - "documentation"
+  pandas-dev/pandas:
+    project_name: "pandas"
+    num_prs: 200
+    pr_state: "merged"
+    exclude_title_keywords:
+      - "backport"
+      - "DOC:"
+    exclude_paths:
+      - "pandas/io"
+      - "pandas/tests/io"
+    exclude_labels:
+      - "Docs"
+  scipy/scipy:
+    project_name: "scipy"
+    num_prs: 200
+    pr_state: "merged"
+    exclude_title_keywords:
+      - "DOC:"
+    exclude_paths: []
+    exclude_labels:
+      - "Documentation"
+
+# Example usage:
+# python -m approach.scoping.pr_selection --config config/benchmark_creation/v001.yaml --benchmark_projects Qiskit/qiskit

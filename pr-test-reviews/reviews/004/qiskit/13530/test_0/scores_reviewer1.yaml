@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: ""
+  - criterion: "well integrated"
+    score: 2
+    comment: "This is not the best test file. There is one dedicated to hls_synthesis"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "reasonable exception"
+  - criterion: "well integrated"
+    score: 4
+    comment: "okay class"
+  - criterion: "related to PR"
+    score: 5
+    comment: "pr is broader than this test but the test is related"

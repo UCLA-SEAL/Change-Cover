@@ -1,0 +1,37 @@
+diff --git a/scipy/signal/tests/test_filter_design.py b/scipy/signal/tests/test_filter_design.py
+index c21c6816c..9663db1c2 100644
+--- a/scipy/signal/tests/test_filter_design.py
++++ b/scipy/signal/tests/test_filter_design.py
+@@ -31,6 +31,8 @@ from scipy.signal._filter_design import (_cplxreal, _cplxpair, _norm_factor,
+ from scipy.signal._filter_design import _logspace
+ from scipy.signal import _polyutils as _pu
+ from scipy.signal._polyutils import _sort_cmplx
++from scipy.signal._polyutils import _trim_zeros
++from numpy.testing import assert_array_almost_equal
+ 
+ skip_xp_backends = pytest.mark.skip_xp_backends
+ xfail_xp_backends = pytest.mark.xfail_xp_backends
+@@ -1662,6 +1664,23 @@ class TestBilinear:
+         with pytest.raises(ValueError, match="Sampling.*be none"):
+             bilinear(b, a, fs=None)
+ 
++    def test_trim_zeros(self):
++        # Test for leading zeros
++        b = [0, 0, 1, 2, 3, 0, 0]
++        a = [1, 0, 0]
++        expected_b = [1, 2, 3]
++        expected_a = [1]
++        b_trimmed = _trim_zeros(np.array(b), 'fb')  # Adjusted to unpack single value
++        assert_array_almost_equal(b_trimmed, expected_b)
++
++        # Test for trailing zeros
++        b = [1, 2, 3, 0, 0]
++        a = [1, 0, 0]
++        expected_b = [1, 2, 3]
++        expected_a = [1]
++        b_trimmed = _trim_zeros(np.array(b), 'fb')  # Adjusted to unpack single value
++        assert_array_almost_equal(b_trimmed, expected_b)
++
+ 
+ class TestLp2lp_zpk:
+ 

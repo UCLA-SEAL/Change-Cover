@@ -1,0 +1,24 @@
+diff --git a/test/python/primitives/containers/test_observables_array.py b/test/python/primitives/containers/test_observables_array.py
+index be215f28a..4aad38077 100644
+--- a/test/python/primitives/containers/test_observables_array.py
++++ b/test/python/primitives/containers/test_observables_array.py
+@@ -19,6 +19,7 @@ import numpy as np
+ import qiskit.quantum_info as qi
+ from qiskit.primitives.containers.observables_array import ObservablesArray
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
++import pytest
+ 
+ 
+ @ddt.ddt
+@@ -355,3 +356,11 @@ class ObservablesArrayTestCase(QiskitTestCase):
+                             {labels_rs[idx]: 1},
+                             msg=f"failed for shape {shape} with input format {input_shape}",
+                         )
++
++class TestObservablesArray:
++
++    @pytest.mark.parametrize('invalid_input', [123, 45.67, None, [], {}, {'a': 1, 2: 3}])
++    def test_coerce_observable_invalid_type(self, invalid_input):
++        """Test coerce_observable for invalid basis types"""
++        with pytest.raises((TypeError, ValueError)):
++            ObservablesArray.coerce_observable(invalid_input)

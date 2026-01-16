@@ -1,0 +1,26 @@
+diff --git a/pandas/tests/dtypes/test_common.py b/pandas/tests/dtypes/test_common.py
+index 5a59617ce5..c3c89cab63 100644
+--- a/pandas/tests/dtypes/test_common.py
++++ b/pandas/tests/dtypes/test_common.py
+@@ -22,6 +22,7 @@ import pandas as pd
+ import pandas._testing as tm
+ from pandas.api.types import pandas_dtype
+ from pandas.arrays import SparseArray
++from unittest.mock import patch
+ 
+ 
+ # EA & Actual Dtypes
+@@ -842,3 +843,13 @@ def test_construct_from_string_without_pyarrow_installed():
+     # GH 57928
+     with pytest.raises(ImportError, match="pyarrow>=10.0.1 is required"):
+         pd.Series([-1.5, 0.2, None], dtype="float32[pyarrow]")
++
++@patch('pandas.core.dtypes.dtypes.pa_version_under10p1', True)
++def test_import_error_on_outdated_pyarrow_version():
++    with pytest.raises(ImportError, match="pyarrow>=10.0.1 is required for ArrowDtype"):
++        pd.Series(dtype='string[pyarrow]')  # This will trigger the check
++
++@patch('pandas.core.dtypes.dtypes.pa_version_under10p1', True)
++def test_import_error_on_pyarrow_outdated():
++    with pytest.raises(ImportError, match="pyarrow>=10.0.1 is required"): 
++        pd.Series(dtype='float32[pyarrow]')  # This should trigger ImportError

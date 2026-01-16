@@ -1,0 +1,33 @@
+diff --git a/test/python/synthesis/test_multi_controlled_synthesis.py b/test/python/synthesis/test_multi_controlled_synthesis.py
+index 2c85b3c5c..39dccf930 100644
+--- a/test/python/synthesis/test_multi_controlled_synthesis.py
++++ b/test/python/synthesis/test_multi_controlled_synthesis.py
+@@ -57,6 +57,9 @@ from qiskit.quantum_info.operators.operator_utils import _equal_with_ancillas, m
+ from qiskit.transpiler import generate_preset_pass_manager
+ 
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
++from qiskit.exceptions import QiskitError
++from qiskit.circuit.library import XGate
++from qiskit.synthesis.multi_controlled import synth_mcx_1_clean_kg24
+ 
+ 
+ @ddt
+@@ -234,6 +237,18 @@ class TestMCSynthesisCorrectness(QiskitTestCase):
+         cop_mat = self.mc_matrix(base_gate, num_ctrl_qubits)
+         self.assertTrue(matrix_equal(cop_mat, test_op))
+ 
++    def test_synth_mcx_1_clean_kg24_invalid_ctrl_qubits(self):
++        """Test that synth_mcx_1_clean_kg24 raises an error for invalid control qubits."""
++        with self.assertRaises(QiskitError):
++            synth_mcx_1_clean_kg24(1)  # Invalid number of control qubits
++        with self.assertRaises(QiskitError):
++            synth_mcx_1_clean_kg24(2)  # Invalid number of control qubits
++    def test_synth_mcx_1_clean_kg24_valid_ctrl_qubits(self):
++        """Test synth_mcx_1_clean_kg24 with valid control qubit counts."""
++        for num_ctrl_qubits in range(3, 9):  # Test for valid control qubit counts
++            synthesized_circuit = synth_mcx_1_clean_kg24(num_ctrl_qubits)
++            self.assertIsNotNone(synthesized_circuit)  # Check if circuit is created
++
+ 
+ @ddt
+ class TestMCSynthesisCounts(QiskitTestCase):

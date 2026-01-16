@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 5
+    comment: "using expr already defined and also option_context('compute.use_numexpr'"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

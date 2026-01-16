@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "Unclear if we need all 3 test cases. Also, there is another test 'test_bool_ops_warn_on_arithmetic' that seems to cover similar ground. Need to double check this"
+  - criterion: "well integrated"
+    score: 5
+    comment: ""
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

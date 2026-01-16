@@ -1,0 +1,29 @@
+diff --git a/scipy/signal/tests/test_signaltools.py b/scipy/signal/tests/test_signaltools.py
+index b63a6211f..8bff8abe3 100644
+--- a/scipy/signal/tests/test_signaltools.py
++++ b/scipy/signal/tests/test_signaltools.py
+@@ -36,6 +36,7 @@ from scipy._lib._array_api import (
+     assert_array_almost_equal, assert_almost_equal,
+     xp_copy, xp_size, xp_default_dtype
+ )
++from scipy.signal import lp2hp
+ skip_xp_backends = pytest.mark.skip_xp_backends
+ xfail_xp_backends = pytest.mark.xfail_xp_backends
+ 
+@@ -4561,3 +4562,16 @@ class TestUniqueRoots:
+ def test_gh_22684():
+     actual = signal.resample_poly(np.arange(2000, dtype=np.complex64), 6, 4)
+     assert actual.dtype == np.complex64
++
++def test_lp2hp_with_various_wo():
++    # Test with wo < 1
++    b, a = lp2hp([1], [1, np.sqrt(2), 1], wo=0.5)
++    assert len(b) > 0 and len(a) > 0, 'Expected non-empty output for wo < 1'
++    
++    # Test with wo = 1
++    b, a = lp2hp([1], [1, np.sqrt(2), 1], wo=1)
++    assert len(b) > 0 and len(a) > 0, 'Expected non-empty output for wo = 1'
++    
++    # Test with wo > 1
++    b, a = lp2hp([1], [1, np.sqrt(2), 1], wo=2)
++    assert len(b) > 0 and len(a) > 0, 'Expected non-empty output for wo > 1'

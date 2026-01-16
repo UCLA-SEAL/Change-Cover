@@ -1,0 +1,24 @@
+diff --git a/pandas/tests/strings/test_strings.py b/pandas/tests/strings/test_strings.py
+index 025f837982..199a039bee 100644
+--- a/pandas/tests/strings/test_strings.py
++++ b/pandas/tests/strings/test_strings.py
+@@ -15,6 +15,7 @@ from pandas import (
+ import pandas._testing as tm
+ from pandas.core.strings.accessor import StringMethods
+ from pandas.tests.strings import is_object_or_nan_string_dtype
++from pandas import Series, set_option
+ 
+ 
+ @pytest.mark.parametrize("pattern", [0, True, Series(["foo", "bar"])])
+@@ -778,3 +779,11 @@ def test_series_str_decode():
+     result = Series([b"x", b"y"]).str.decode(encoding="UTF-8", errors="strict")
+     expected = Series(["x", "y"], dtype="str")
+     tm.assert_series_equal(result, expected)
++
++def test_decode_with_dtype_none():
++    # Ensure that future.infer_string is enabled
++    set_option('future.infer_string', True)
++    ser = Series([b'a', b'b', b'c'])  # Use byte strings
++    result = ser.str.decode('utf-8', dtype=None)
++    expected = Series(['a', 'b', 'c'], dtype='str')
++    tm.assert_series_equal(result, expected)

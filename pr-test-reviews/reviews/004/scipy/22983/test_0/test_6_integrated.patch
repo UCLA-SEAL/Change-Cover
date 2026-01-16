@@ -1,0 +1,25 @@
+diff --git a/scipy/sparse/linalg/tests/test_funm_multiply_krylov.py b/scipy/sparse/linalg/tests/test_funm_multiply_krylov.py
+index 93b545e96..0c9f3d9c3 100644
+--- a/scipy/sparse/linalg/tests/test_funm_multiply_krylov.py
++++ b/scipy/sparse/linalg/tests/test_funm_multiply_krylov.py
+@@ -132,6 +132,20 @@ class TestKrylovFunmv:
+         observed = funm_multiply_krylov(expm, A, b, restart_every_m = 40)
+         assert_allclose(observed, expected)
+ 
++    def test_funm_multiply_krylov_invalid_parameters(self):
++        # Test for non-1D array for b
++        with pytest.raises(ValueError, match="argument 'b' must be a 1D array."):
++            funm_multiply_krylov(lambda x: x, np.array([[1, 2], [3, 4]]), np.array([[1, 2]]))  # 2D array instead of 1D
++        # Test for invalid assume_a value
++        with pytest.raises(ValueError, match="is not a recognized matrix structure"):
++            funm_multiply_krylov(lambda x: x, np.array([[1, 2], [3, 4]]), np.array([1, 2]), assume_a='invalid')
++        # Test for invalid restart_every_m
++        with pytest.raises(ValueError, match="argument 'restart_every_m' must be positive."):
++            funm_multiply_krylov(lambda x: x, np.array([[1, 2], [3, 4]]), np.array([1, 2]), restart_every_m=-1)
++        # Test for invalid max_restarts
++        with pytest.raises(ValueError, match="argument 'max_restarts' must be positive."):
++            funm_multiply_krylov(lambda x: x, np.array([[1, 2], [3, 4]]), np.array([1, 2]), max_restarts=0)
++
+ 
+ @pytest.mark.parametrize("dtype_a", DTYPES)
+ @pytest.mark.parametrize("dtype_b", DTYPES)

@@ -1,0 +1,32 @@
+diff --git a/test/python/quantum_info/operators/symplectic/test_pauli_list.py b/test/python/quantum_info/operators/symplectic/test_pauli_list.py
+index 9abc473dc..b6ffebbcc 100644
+--- a/test/python/quantum_info/operators/symplectic/test_pauli_list.py
++++ b/test/python/quantum_info/operators/symplectic/test_pauli_list.py
+@@ -46,6 +46,7 @@ from test import combine  # pylint: disable=wrong-import-order
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
+ 
+ from .test_pauli import pauli_group_labels
++from qiskit.quantum_info.operators import PauliList
+ 
+ 
+ def pauli_mat(label):
+@@ -2180,6 +2181,19 @@ class TestPauliListMethods(QiskitTestCase):
+                 )
+             )
+ 
++    def test_from_symplectic_invalid_phase(self):
++        """Test from_symplectic method with multi-dimensional phase input."""
++        with self.assertRaises(ValueError):
++            PauliList.from_symplectic(np.array([[1, 0], [0, 1]]), np.array([1]), np.array([[1]]))  # 2D array input for phase
++    def test_insert_valid_phase(self):
++        """Test insert method with valid single column input."""
++        pauli = PauliList(["X"])
++        insert = PauliList(["Y"])
++        target = PauliList(["YX"])
++        value = pauli.insert(1, insert, qubit=True)
++        self.assertEqual(value, target)
++        self.assertEqual(value.phase.shape, (1,))  # Ensure phase is 1D
++
+ 
+ if __name__ == "__main__":
+     unittest.main()

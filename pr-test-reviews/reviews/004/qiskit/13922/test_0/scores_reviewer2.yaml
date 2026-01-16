@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "good check of the behavior, the oracle could be improved by checking that it is a quantum circuit but it is fine also checking it is not None."
+  - criterion: "well integrated"
+    score: 5
+    comment: "right class"
+  - criterion: "related to PR"
+    score: 5
+    comment: "the main PR goal was broader, but this test is related to the PR"

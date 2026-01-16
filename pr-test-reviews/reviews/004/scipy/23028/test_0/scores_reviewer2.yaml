@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 5
+    comment: "some imports are repeated"
+  - criterion: "related to PR"
+    score: 4
+    comment: ""

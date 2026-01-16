@@ -1,0 +1,11 @@
+reviewer: 1
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: "Looks good. But need to double check the coverage are truly missing"
+  - criterion: "well integrated"
+    score: 5
+    comment: "Not sure if this warrants a new test class, maybe "
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

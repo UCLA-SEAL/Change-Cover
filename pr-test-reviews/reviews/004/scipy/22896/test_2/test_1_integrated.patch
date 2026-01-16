@@ -1,0 +1,40 @@
+diff --git a/scipy/signal/tests/test_filter_design.py b/scipy/signal/tests/test_filter_design.py
+index c21c6816c..3bf0e4904 100644
+--- a/scipy/signal/tests/test_filter_design.py
++++ b/scipy/signal/tests/test_filter_design.py
+@@ -31,6 +31,7 @@ from scipy.signal._filter_design import (_cplxreal, _cplxpair, _norm_factor,
+ from scipy.signal._filter_design import _logspace
+ from scipy.signal import _polyutils as _pu
+ from scipy.signal._polyutils import _sort_cmplx
++from scipy.signal import zpk2sos
+ 
+ skip_xp_backends = pytest.mark.skip_xp_backends
+ xfail_xp_backends = pytest.mark.xfail_xp_backends
+@@ -607,6 +608,27 @@ class TestZpk2Sos:
+         with pytest.raises(ValueError, match=r'k must be real'):
+             zpk2sos([1], [2], k=1j)
+ 
++    def test_multidimensional_coefficients(self):
++        # Multidimensional array input for coefficients
++        z = np.asarray([[0.5, -0.5], [1.0, -1.0]])
++        p = np.asarray([[0.25 + 0.5j, 0.25 - 0.5j], [0.75 + 0.3j, 0.75 - 0.3j]])
++        k = 1
++        sos = zpk2sos(z.flatten(), p.flatten(), k)  # Ensure flattening for correct dimensionality
++
++        # Expecting the output to be a 2D array with the appropriate shape
++        assert sos.ndim == 2
++        assert sos.shape[0] == 2  # Number of sets of coefficients
++        assert sos.shape[1] == 6  # Each SOS should have 6 coefficients
++    def test_poly1d_invalid_dimension(self):
++        with pytest.raises(ValueError, match="Polynomial must be 1d only."):
++            z = np.asarray([[1, 2], [3, 4]])  # 2D array
++            _ = _pu._poly1d(z, xp=np)  # This should raise an error
++    def test_poly1d_empty_trimmed(self):
++        # Testing trimming that results in an empty array
++        z = np.asarray([])  # Empty array input
++        result = _pu._poly1d(z, xp=np)
++        assert np.array_equal(result, np.asarray([0]))  # Should return zero array
++
+ 
+ class TestFreqs:
+ 

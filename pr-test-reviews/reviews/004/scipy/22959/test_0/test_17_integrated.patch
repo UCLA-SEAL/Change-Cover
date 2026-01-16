@@ -1,0 +1,30 @@
+diff --git a/scipy/cluster/tests/test_hierarchy.py b/scipy/cluster/tests/test_hierarchy.py
+index 1eb4c0d8e..2638e1a18 100644
+--- a/scipy/cluster/tests/test_hierarchy.py
++++ b/scipy/cluster/tests/test_hierarchy.py
+@@ -53,6 +53,7 @@ from scipy._lib.array_api_extra.testing import lazy_xp_function
+ from threading import Lock
+ 
+ from . import hierarchy_test_data
++from scipy.cluster.hierarchy import fclusterdata
+ 
+ class eager:
+     # Bypass xpx.testing.lazy_xp_function when calling
+@@ -317,6 +318,17 @@ class TestFclusterData:
+         T = fclusterdata(X, criterion=criterion, t=t)
+         assert is_isomorphic(T, expectedT)
+ 
++    @pytest.mark.parametrize('R, expected_exception', [
++        (np.array([[1, 2], [3, 4]]), ValueError),  # Incorrect dimensions
++        (np.array([1, 2, 3]), ValueError),  # Incorrect shape
++        (np.array([[1], [2], [3]]), ValueError)  # Another incorrect shape
++    ])
++    def test_fclusterdata_invalid_R(self, R, expected_exception):
++        X = np.random.rand(10, 2)  # Sample data
++        t = 1.0  # Providing a valid threshold value
++        with pytest.raises(expected_exception):
++            fclusterdata(X, R=R, t=t, criterion='inconsistent')
++
+ 
+ @skip_xp_backends(cpu_only=True)
+ class TestFcluster:

@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 5
+    comment: ""
+  - criterion: "well integrated"
+    score: 4
+    comment: "there is still a comment probably from the fixing iteration: # Corrected the type check"
+  - criterion: "related to PR"
+    score: 5
+    comment: ""

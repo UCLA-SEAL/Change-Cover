@@ -1,0 +1,11 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "missing assertions"
+  - criterion: "well integrated"
+    score: 4
+    comment: "correct file better if in the same class"
+  - criterion: "related to PR"
+    score: 4
+    comment: "same functionality but not testing specifically the spacing, we need a reference image"

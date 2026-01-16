@@ -1,0 +1,12 @@
+reviewer: 2
+scores:
+  - criterion: "worthwhile"
+    score: 4
+    comment: "there is redundant definition of aan array a and a_expected which are not user, the rest looks good"
+  - criterion: "well integrated"
+    score: 4
+    comment: "okay class"
+  - criterion: "related to PR"
+    score: 5
+    comment: "pr is broader than this test but the test is related"
+

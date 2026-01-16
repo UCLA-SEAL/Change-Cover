@@ -1,0 +1,29 @@
+diff --git a/pandas/tests/frame/methods/test_interpolate.py b/pandas/tests/frame/methods/test_interpolate.py
+index ebee19e3de..08e10cd485 100644
+--- a/pandas/tests/frame/methods/test_interpolate.py
++++ b/pandas/tests/frame/methods/test_interpolate.py
+@@ -13,6 +13,8 @@ from pandas import (
+     date_range,
+ )
+ import pandas._testing as tm
++import pandas as pd
++import re
+ 
+ 
+ class TestDataFrameInterpolate:
+@@ -550,3 +552,15 @@ class TestDataFrameInterpolate:
+         result = df.interpolate(limit=2)
+         expected = DataFrame({"a": [1, 1.5, 2.0, None, 3]}, dtype="float64[pyarrow]")
+         tm.assert_frame_equal(result, expected)
++
++    def test_interpolate_string_dtype(self):
++        df = pd.DataFrame({'A': ['a', 'b', 'c', 'd']})
++        with pytest.raises(TypeError):
++            df.interpolate()
++    def test_interpolate_non_numeric(self):
++        df = pd.DataFrame({'B': [1, 2, 3, 4], 'C': ['x', 'y', 'z', 'w']})
++        # Explicitly set dtype of column C to string
++        df['C'] = df['C'].astype('string')
++        msg = re.escape("Cannot interpolate with string dtype")
++        with pytest.raises(TypeError, match=msg):
++            df.interpolate()

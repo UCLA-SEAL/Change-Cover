@@ -1,0 +1,45 @@
+diff --git a/test/python/transpiler/test_solovay_kitaev.py b/test/python/transpiler/test_solovay_kitaev.py
+index da3a0840e..95e432bab 100644
+--- a/test/python/transpiler/test_solovay_kitaev.py
++++ b/test/python/transpiler/test_solovay_kitaev.py
+@@ -37,6 +37,7 @@ from qiskit.transpiler import PassManager
+ from qiskit.transpiler.passes import UnitarySynthesis, Collect1qRuns, ConsolidateBlocks
+ from qiskit.transpiler.passes.synthesis import SolovayKitaev, SolovayKitaevSynthesis
+ from test import QiskitTestCase  # pylint: disable=wrong-import-order
++from qiskit.synthesis.discrete_basis.commutator_decompose import _compute_rotation_axis
+ 
+ 
+ def _trace_distance(circuit1, circuit2):
+@@ -479,3 +480,32 @@ class TestSolovayKitaevUtils(QiskitTestCase):
+ 
+ if __name__ == "__main__":
+     unittest.main()
++
++class TestRotationAxis:
++    def test_180_degree_rotation(self):
++        def is_so3_matrix(matrix):
++            return np.allclose(np.dot(matrix, matrix.T), np.eye(3)) and np.isclose(np.linalg.det(matrix), 1)
++
++        x_rotation = np.array([[1, 0, 0], [0, -1, 0], [0, 0, -1]])  # 180-degree X rotation
++        y_rotation = np.array([[-1, 0, 0], [0, 1, 0], [0, 0, -1]])  # 180-degree Y rotation
++        z_rotation = np.array([[-1, 0, 0], [0, -1, 0], [0, 0, 1]])  # 180-degree Z rotation
++
++        assert is_so3_matrix(x_rotation), 'X Rotation is not a valid SO(3) matrix'
++        assert is_so3_matrix(y_rotation), 'Y Rotation is not a valid SO(3) matrix'
++        assert is_so3_matrix(z_rotation), 'Z Rotation is not a valid SO(3) matrix'
++
++        # Validate the computed rotation axes
++        x_axis, y_axis, z_axis = _compute_rotation_axis(x_rotation)
++        assert math.isclose(x_axis, 1.0)
++        assert math.isclose(y_axis, 0.0)
++        assert math.isclose(z_axis, 0.0)
++
++        x_axis, y_axis, z_axis = _compute_rotation_axis(y_rotation)
++        assert math.isclose(x_axis, 0.0)
++        assert math.isclose(y_axis, 1.0)
++        assert math.isclose(z_axis, 0.0)
++
++        x_axis, y_axis, z_axis = _compute_rotation_axis(z_rotation)
++        assert math.isclose(x_axis, 0.0)
++        assert math.isclose(y_axis, 0.0)
++        assert math.isclose(z_axis, 1.0)
