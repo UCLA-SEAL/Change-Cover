@@ -1,0 +1,50 @@
+# pandas at one pull request, installed in editable mode and ready to run tests.
+#
+#   docker build --build-arg PR_NUMBER=<n> [--build-arg CHECKOUT=base|merge|pr] docker/pandas/pr_env
+#
+# See docker/PR_ENV.md.
+FROM python:3.11-slim-bookworm
+
+ARG PR_NUMBER
+# base: the commit the pull request was merged into (first parent of its merge commit).
+# merge: the merge commit, i.e. base with the pull request applied.
+# pr: the pull request's head (refs/pull/<PR_NUMBER>/head).
+ARG CHECKOUT=base
+# Optional settings:
+#   PANDAS_FUTURE_INFER_STRING=1     infer strings as the string dtype, as pandas 3.0 does;
+#                                    several of these pull requests test that behaviour.
+#   OPENBLAS_CORETYPE=Haswell        OpenBLAS can crash on CPUs it misdetects (some VMs).
+ARG PANDAS_FUTURE_INFER_STRING=0
+ARG OPENBLAS_CORETYPE=
+
+ENV DEBIAN_FRONTEND=noninteractive PIP_NO_CACHE_DIR=1 PYTHONUNBUFFERED=1 LANG=C.UTF-8 \
+    PANDAS_FUTURE_INFER_STRING=${PANDAS_FUTURE_INFER_STRING} OPENBLAS_CORETYPE=${OPENBLAS_CORETYPE}
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git build-essential pkg-config curl \
+    libhdf5-dev libglib2.0-0 libgles2-mesa-dev libsm6 libxrender1 libxext6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# uv resolves dependencies as they were on a given date (--exclude-newer).
+RUN pip install uv
+
+# Per-PR data: base commit, merge commit, and the date dependencies are resolved at.
+COPY prs.json /opt/prs.json
+RUN python -c "import json, os; e = json.load(open('/opt/prs.json'))[os.environ['PR_NUMBER']]; \
+open('/opt/pr.env', 'w').write(f\"BASE_COMMIT={e['base_commit']}\nMERGE_COMMIT={e['merge_commit']}\nDEPS_DATE={e['dependencies_as_of']}\n\")"
+
+RUN git clone --filter=blob:none -q https://github.com/pandas-dev/pandas.git /opt/pandas
+WORKDIR /opt/pandas
+RUN . /opt/pr.env \
+    && git tag pr-base $BASE_COMMIT && git tag pr-merge $MERGE_COMMIT \
+    && case "$CHECKOUT" in \
+         base) git checkout -q pr-base ;; \
+         merge) git checkout -q pr-merge ;; \
+         pr) git fetch -q origin refs/pull/$PR_NUMBER/head:pr-head && git checkout -q pr-head ;; \
+         *) echo "CHECKOUT must be base, merge or pr, not '$CHECKOUT'" >&2; exit 1 ;; \
+       esac
+
+RUN . /opt/pr.env && uv pip install --system --exclude-newer "$DEPS_DATE" -r requirements-dev.txt
+
+RUN python -m pip install --no-build-isolation -e .
+RUN python -c 'import pandas; print(pandas.__version__)'

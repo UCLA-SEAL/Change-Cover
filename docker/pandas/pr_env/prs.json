@@ -1,0 +1,227 @@
+{
+  "58314": {
+    "base_commit": "e293dd88edfaa6f174319ae7b9ce0a6454b0d784",
+    "merge_commit": "2dbfbbe7edb62b8e879f95dc77506c6003d74056",
+    "dependencies_as_of": "2024-04-19T13:05:48-07:00"
+  },
+  "58370": {
+    "base_commit": "0cafd1007640b9c6f3542eddd10ffffbaee49c88",
+    "merge_commit": "bfe5be01fef4eaecf4ab033e74139b0a3cac4a39",
+    "dependencies_as_of": "2024-04-22T15:11:44-07:00"
+  },
+  "58767": {
+    "base_commit": "42f785f8c1a391d18b558aaf84347129790d1431",
+    "merge_commit": "bbe0e531383358b44e94131482e122bda43b33d7",
+    "dependencies_as_of": "2024-06-11T08:58:46-07:00"
+  },
+  "58791": {
+    "base_commit": "1907822eba167311519f31f9b2e0957e35e34915",
+    "merge_commit": "eea6d0e57ee4f94f04356a1833c7dec1aad187de",
+    "dependencies_as_of": "2025-06-06T17:08:35+04:00"
+  },
+  "58792": {
+    "base_commit": "575e51c0c1df2c8846b952f91adb127152dabefb",
+    "merge_commit": "6a7b3da0aa8e09695bff0b4cfc6a620dee66df2c",
+    "dependencies_as_of": "2024-05-20T09:51:45-07:00"
+  },
+  "58886": {
+    "base_commit": "f49b286615a3a67d8bf41b007b18ce6e10f8d0de",
+    "merge_commit": "ed4b8676f46bb259f8be2a6ba6466602002e0e4a",
+    "dependencies_as_of": "2024-06-03T11:06:41-07:00"
+  },
+  "58893": {
+    "base_commit": "d6b7d5c9a25e3dd02c8ea249a92f2f0f329b0e42",
+    "merge_commit": "8b705675bcb8ae86fb03e388e9969a1772236bf0",
+    "dependencies_as_of": "2024-06-06T17:01:04-04:00"
+  },
+  "59034": {
+    "base_commit": "8395f981851323913763790ad959a80e3e882ba9",
+    "merge_commit": "ee05885328bca2f627e2d249fd3aed2df1cf9ef4",
+    "dependencies_as_of": "2024-06-17T12:03:13-07:00"
+  },
+  "59114": {
+    "base_commit": "f2eeb4e9baee7ba4d8ff854b22c2c34fd865d969",
+    "merge_commit": "db13fb5e68771183f77be3d8b3742824edd4d265",
+    "dependencies_as_of": "2024-07-01T10:30:32-04:00"
+  },
+  "59141": {
+    "base_commit": "039edee0bc1a729ee9b67a6f9a337f7cd03118d1",
+    "merge_commit": "f3ad4d50aee360092c54b918b28c2cba90c90f20",
+    "dependencies_as_of": "2024-07-05T10:08:08-07:00"
+  },
+  "59142": {
+    "base_commit": "60900429bc7ac8b0981977740a86f807d19e069e",
+    "merge_commit": "bd405e850524f359f88f03a207e2543aa341bc48",
+    "dependencies_as_of": "2024-07-08T08:42:07-07:00"
+  },
+  "59254": {
+    "base_commit": "56c80f89cafadcd7050eff2c9bf34bf890ee93fc",
+    "merge_commit": "b4bd4ae270a2e42ad95498c9ce9f4b8abdad3bdd",
+    "dependencies_as_of": "2024-07-16T09:42:04-07:00"
+  },
+  "59441": {
+    "base_commit": "f9232ff211ee6bb25b0246f5f397b910b0ba8f17",
+    "merge_commit": "d0cb2056d0b27080b2f5cc0b88db8d263f684230",
+    "dependencies_as_of": "2024-08-07T10:07:19-07:00"
+  },
+  "59488": {
+    "base_commit": "96d732e3ccaf5b10373747664392fa231afd3c3a",
+    "merge_commit": "8ab673cdaed9a2620a1d7070199e539dcecb111d",
+    "dependencies_as_of": "2024-08-12T13:06:48-07:00"
+  },
+  "59501": {
+    "base_commit": "66e465e2d10eb56cffbb10433139b6402bb10700",
+    "merge_commit": "8bece716be611fa42e29ef4c3e1e36ee7dbf19de",
+    "dependencies_as_of": "2024-08-15T10:45:12-07:00"
+  },
+  "59544": {
+    "base_commit": "80b685027108245086b78dbd9a176b096c92570a",
+    "merge_commit": "13f45e70989625850dda374c5588d4beb54bd48c",
+    "dependencies_as_of": "2024-09-07T07:53:28-04:00"
+  },
+  "59555": {
+    "base_commit": "16b7288eccdf29efcb430616e77cd701497fe8ed",
+    "merge_commit": "4444e5279b2a42b927044d65cbd894abd33fa724",
+    "dependencies_as_of": "2024-09-10T10:11:32-07:00"
+  },
+  "59624": {
+    "base_commit": "2c7674047e28f3a6eefedeeff20aaff03dca7300",
+    "merge_commit": "db1b8ab2fc1a65c2e520dc9ffb6390743a00d63b",
+    "dependencies_as_of": "2024-09-02T11:00:59-07:00"
+  },
+  "59626": {
+    "base_commit": "5ad25d0eba90726e87bda0d5b7f33a5acb7b0f6b",
+    "merge_commit": "675293573cf3be8c59b45e34fce20f473186634e",
+    "dependencies_as_of": "2024-08-28T10:09:48-07:00"
+  },
+  "59682": {
+    "base_commit": "8cd761a2d1553d7dfa986f3c574f03f2fc62587e",
+    "merge_commit": "4a16b44bfabc70854f1d3a1447e7050725ff16d9",
+    "dependencies_as_of": "2024-09-06T10:36:50-07:00"
+  },
+  "59686": {
+    "base_commit": "88554d0ca77c7b80605a34f9ece838b834db8720",
+    "merge_commit": "4f328f08df90906198b3a3f955ab321018964f0a",
+    "dependencies_as_of": "2024-10-10T15:04:25+02:00"
+  },
+  "59768": {
+    "base_commit": "5927bd8c66f126897d97d03865e1526a0072f6f4",
+    "merge_commit": "2c49f555a004a86a2065525b1f424d1b17208b87",
+    "dependencies_as_of": "2024-09-12T14:07:29-07:00"
+  },
+  "59854": {
+    "base_commit": "7e5282f5f125406cff7fdf80b452e114adfa4c26",
+    "merge_commit": "c8a67401932c773ace0f62660f09b5684f39a148",
+    "dependencies_as_of": "2024-09-25T12:14:49-07:00"
+  },
+  "59928": {
+    "base_commit": "198ed865420c2a206dc062a32be47c7cc5e76bc0",
+    "merge_commit": "c47296ad3b9908f77fba5830ec9dbb7f546cb720",
+    "dependencies_as_of": "2024-10-03T09:08:49-07:00"
+  },
+  "60191": {
+    "base_commit": "909c6da4d3627f95b02d6cc3f482cefbf166e24f",
+    "merge_commit": "7fe140e05349c1251e9e9595da982e63c7cf2154",
+    "dependencies_as_of": "2024-11-07T08:57:32+01:00"
+  },
+  "60196": {
+    "base_commit": "e449b49716203bbf04d20bc867fda7ea6d562ef5",
+    "merge_commit": "169b00e1eaf06924aee585d8e5469dc284992382",
+    "dependencies_as_of": "2024-11-05T10:52:01-08:00"
+  },
+  "60295": {
+    "base_commit": "63d3971328f96fb176305ff2886e5b67a9c39454",
+    "merge_commit": "fae3e8034faf66eb8ef00bcbed73d48e4ef791d3",
+    "dependencies_as_of": "2024-11-15T10:20:11-08:00"
+  },
+  "60333": {
+    "base_commit": "34c080cb91d71a8e900a6c114279e142924c1a64",
+    "merge_commit": "720a6e7f9b4436d8ee88a6fb02ea31484d59e381",
+    "dependencies_as_of": "2024-11-17T09:07:48+01:00"
+  },
+  "60413": {
+    "base_commit": "106f33cfce16f4e08f6ca5bd0e6e440ec9a94867",
+    "merge_commit": "1d809c3c45c5cd0b32211790fa84172e7f48b270",
+    "dependencies_as_of": "2024-11-26T13:28:39-08:00"
+  },
+  "60505": {
+    "base_commit": "497208f03ce226d5e006e7a713ceab5f303fe1e2",
+    "merge_commit": "8a286fa16f3160e939b192cbe8e218992a84e6fc",
+    "dependencies_as_of": "2024-12-06T10:12:08-08:00"
+  },
+  "60518": {
+    "base_commit": "07e0bca0a6e2005b6fc31110f28c32e606df288d",
+    "merge_commit": "59f947ff40308bcfb6ecb65eb23b391d6f031c03",
+    "dependencies_as_of": "2024-12-09T10:31:40-08:00"
+  },
+  "60541": {
+    "base_commit": "ca91dd4c39a02c0026b98c16c56996f81506e004",
+    "merge_commit": "719fc0fcbcda23a79156ccfc990228df0851452f",
+    "dependencies_as_of": "2024-12-09T10:54:40-08:00"
+  },
+  "60584": {
+    "base_commit": "9fe33bcbca79e098f9ba8ffd9fcf95440b95032b",
+    "merge_commit": "edf00e953e6e185345fbc488cd9a963ab2d59d58",
+    "dependencies_as_of": "2024-12-17T10:37:34-08:00"
+  },
+  "60586": {
+    "base_commit": "3362822db00076222d3875a86b5f5625799d8862",
+    "merge_commit": "eb22bf8f9c194a96b6d7583504ab7ca217238881",
+    "dependencies_as_of": "2024-12-17T08:40:01+01:00"
+  },
+  "60637": {
+    "base_commit": "228627a576c2d78e2bd084814c46b851c3895c52",
+    "merge_commit": "5e50d3f3d2b0ee65f0d5bfda0c6da47ffd39dcfe",
+    "dependencies_as_of": "2025-01-02T13:47:32-08:00"
+  },
+  "60652": {
+    "base_commit": "e53967b9ad8abb1ba0709cbc37e8d4f4827d6225",
+    "merge_commit": "d90edeb33a40407c6e348222360e0ef69ea4e0c5",
+    "dependencies_as_of": "2025-01-02T10:29:06-08:00"
+  },
+  "60713": {
+    "base_commit": "fa5c2550e81c3e745eb7948b56adac45454853d5",
+    "merge_commit": "8bc8c0a6119b053e520f5018dc1350863f7277e4",
+    "dependencies_as_of": "2025-01-13T17:56:32-08:00"
+  },
+  "60739": {
+    "base_commit": "27baf4887a1b7d4f4a378c2f951cdc95fb1ab2b8",
+    "merge_commit": "bbd6526461b6e9fc7783bd51298db5cb2ae0c679",
+    "dependencies_as_of": "2025-01-21T09:18:58-08:00"
+  },
+  "60742": {
+    "base_commit": "fcc94eb0aca7cb0c90c992d1c36220bde5580000",
+    "merge_commit": "36d34a1506a4aa5ea01d8b3eb5f5dde526346824",
+    "dependencies_as_of": "2025-01-14T21:39:51+01:00"
+  },
+  "60871": {
+    "base_commit": "8f802cd01fd7cf83624d13e45a65c11dd2d221e2",
+    "merge_commit": "11e3dc2738befa5803aea676f1b68082a8b24a8b",
+    "dependencies_as_of": "2025-02-10T10:23:27-08:00"
+  },
+  "60940": {
+    "base_commit": "f77398c36ad43361103ee0f2c3c6470bf5815b2d",
+    "merge_commit": "63249f2aa95ef0b0300ea2f1cc68200cc8b13484",
+    "dependencies_as_of": "2025-02-18T09:08:43-08:00"
+  },
+  "61173": {
+    "base_commit": "5fef9793dd23867e7b227a1df7aa60a283f6204e",
+    "merge_commit": "5f354ca51f24cfb3e6a11c0c3367d0abf8676637",
+    "dependencies_as_of": "2025-04-16T13:41:28-07:00"
+  },
+  "61216": {
+    "base_commit": "ca20ea95f97cbd8cef8d43e0189076e7b5d5266d",
+    "merge_commit": "80795dfe5db3a6c089a2ffc31df5b8a324f8dd53",
+    "dependencies_as_of": "2025-04-14T09:44:07-07:00"
+  },
+  "61467": {
+    "base_commit": "97897e17eeb2a412d690b344f569ddd480a7b2a4",
+    "merge_commit": "f2f24a9d4396da43fad1d6f5145f85f6e1f5386c",
+    "dependencies_as_of": "2025-05-27T14:24:32-07:00"
+  },
+  "61578": {
+    "base_commit": "e6da5f28b98d2d38ea15af96303efca462223ad8",
+    "merge_commit": "2096b2897b3692c3f4715e5e65e35fbb01e55eea",
+    "dependencies_as_of": "2025-06-07T02:09:23+04:00"
+  }
+}
